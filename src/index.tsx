@@ -6,7 +6,6 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import Spinner from "react-bootstrap/Spinner";
 import "./index.css";
-import { NavMenu } from "./components/shared/NavMenu";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Search from "./pages/Search";
@@ -14,34 +13,21 @@ import Signup from "./pages/Signup";
 import Stories from "./pages/Stories";
 import Story from "./pages/Story";
 import { persistor, store } from "./redux/store";
-
 import reportWebVitals from "./reportWebVitals";
-import { ShouldRender } from "./components/shared/ShouldRender";
 
 const App: FC = () => {
-  console.log(window.location);
   return (
     <>
-      <ShouldRender
-        check={
-          window.location.pathname !== "/signup" &&
-          window.location.pathname !== "/login"
-        }
-      >
-        <NavMenu />
-      </ShouldRender>
-      <div className="body">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/stories/:type" element={<Stories />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/story" element={<Story />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/stories/:type" element={<Stories />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/story" element={<Story />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 };

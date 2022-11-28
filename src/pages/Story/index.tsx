@@ -4,12 +4,13 @@ import Figure from "react-bootstrap/Figure";
 import Button from "react-bootstrap/Button";
 import "./story.css";
 import { ShouldRender } from "../../components/shared/ShouldRender";
+import { AppLayout } from "../../components/shared/AppLayout";
 
 const Story: FC = () => {
   const location = useLocation();
 
   return (
-    <div className="container">
+    <AppLayout>
       <h2>{location.state.title}</h2>
       <span>{location.state.byline}</span>
       <br />
@@ -37,7 +38,7 @@ const Story: FC = () => {
           Go to the article
         </Button>
       </a>
-    </div>
+    </AppLayout>
   );
 };
 

@@ -5,10 +5,16 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import logo from "../../../logo.svg";
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { logout } from "../../../redux/auth/authSlice";
 
 export const NavMenu: FC = () => {
-  const user = useAppSelector((state) => state.user);
+  const user = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
+
+  const signout = () => {
+    dispatch(logout());
+  };
 
   return (
     <Navbar bg="dark" variant="dark" className="nav">
@@ -37,7 +43,7 @@ export const NavMenu: FC = () => {
           <NavDropdown title="User ">
             <NavDropdown.Item>{user}</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item>Logout</NavDropdown.Item>
+            <NavDropdown.Item onClick={signout}>Logout</NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
       </Container>

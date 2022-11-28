@@ -1,27 +1,26 @@
 import { FC, useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import Pagination from "react-bootstrap/Pagination";
 import axios from "axios";
 import { buildSearchURL } from "../../utils";
 import { SearchResults } from "../../components/search/SearchResults";
 import { ShouldRender } from "../../components/shared/ShouldRender";
 import "./search.css";
+import { AppLayout } from "../../components/shared/AppLayout";
+import { useAppDispatch } from "../../redux/hooks";
+import { SearchInput } from "../../components/search/SearchInput";
+import { search } from "../../redux/search/searchSlice";
 
 const Search: FC = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-
-  const onChangeInput = (e: any) => {
-    setQuery(e.target.value);
-  };
+  const dispatch = useAppDispatch();
 
   const onSearch = () => {
     axios.get(buildSearchURL(query)).then((res) => {
+      dispatch(search(query));
       setResults(res.data.response.docs);
-      console.log(res.data.response);
       setCurrentPage(0);
       let totalPages = Math.floor(res.data.response.meta.hits / 10);
       totalPages > 200 ? setTotalPages(200) : setTotalPages(totalPages);
@@ -39,27 +38,14 @@ const Search: FC = () => {
         : 0;
     axios.get(buildSearchURL(query, nextPage)).then((res) => {
       setResults(res.data.response.docs);
-      console.log(res.data.response);
       setCurrentPage(nextPage);
     });
   };
 
   return (
-    <div className="container">
+    <AppLayout>
       <h2>Search for articles</h2>
-      <Form className="d-flex">
-        <Form.Control
-          type="search"
-          placeholder="Search"
-          className="me-2"
-          aria-label="Search"
-          onChange={onChangeInput}
-          value={query}
-        />
-        <Button variant="dark" onClick={onSearch}>
-          Search
-        </Button>
-      </Form>
+      <SearchInput query={query} setQuery={setQuery} onSearch={onSearch} />
       <SearchResults results={results} />
       <ShouldRender check={results.length > 0}>
         <div className="center">
@@ -72,7 +58,7 @@ const Search: FC = () => {
           </Pagination>
         </div>
       </ShouldRender>
-    </div>
+    </AppLayout>
   );
 };
 
