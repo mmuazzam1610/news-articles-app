@@ -29,4 +29,6 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+## Running Authentication
+
 To get the Authentication to work. You need to run [Fake API JWT Server](https://github.com/techiediaries/fake-api-jwt-json-server) locally.
